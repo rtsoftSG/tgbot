@@ -1,4 +1,4 @@
-module tgbot-sdk
+module tgbot
 
 go 1.15
 
