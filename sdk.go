@@ -2,6 +2,7 @@ package tgbot
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -34,7 +35,7 @@ type tgErrResponse struct {
 }
 
 // Send - send message via telegram bot.
-func (s *SDK) Send(t time.Time, lvl string, msg string) error {
+func (s *SDK) Send(ctx context.Context, t time.Time, lvl string, msg string) error {
 	req := tgRequest{t, lvl, msg}
 
 	data, err := json.Marshal(&req)
@@ -42,7 +43,12 @@ func (s *SDK) Send(t time.Time, lvl string, msg string) error {
 		return fmt.Errorf("marshal request: %w", err)
 	}
 
-	resp, err := s.c.Post(s.baseURL+"/notify", "application/json", bytes.NewBuffer(data))
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", s.baseURL+"/notify", bytes.NewBuffer(data))
+	if err != nil {
+		return fmt.Errorf("prepare post request: %w", err)
+	}
+
+	resp, err := s.c.Do(httpReq)
 	if err != nil {
 		return fmt.Errorf("send post request: %w", err)
 	}

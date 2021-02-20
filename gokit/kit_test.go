@@ -1,6 +1,7 @@
 package gokit
 
 import (
+	"context"
 	"errors"
 	"github.com/go-kit/kit/log/level"
 	"github.com/stretchr/testify/assert"
@@ -13,7 +14,7 @@ type SDKMock struct {
 	mock.Mock
 }
 
-func (s *SDKMock) Send(t time.Time, lvl string, msg string) error {
+func (s *SDKMock) Send(_ context.Context, t time.Time, lvl string, msg string) error {
 	args := s.Called(t, lvl, msg)
 	return args.Error(0)
 }

@@ -1,6 +1,7 @@
 package gokit
 
 import (
+	"context"
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
 	"strings"
@@ -8,7 +9,7 @@ import (
 )
 
 type tgSDK interface {
-	Send(t time.Time, lvl string, msg string) error
+	Send(ctx context.Context, t time.Time, lvl string, msg string) error
 }
 
 type Option func(*tgLogger)
@@ -56,7 +57,7 @@ func (l *tgLogger) Log(keyvals ...interface{}) error {
 		}
 	}
 
-	if err := l.sdk.Send(time.Now(), lvl.String(), makeMessage(keyvals...)); err != nil {
+	if err := l.sdk.Send(context.Background(), time.Now(), lvl.String(), makeMessage(keyvals...)); err != nil {
 		return err
 	}
 

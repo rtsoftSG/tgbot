@@ -1,6 +1,7 @@
 package tgbot
 
 import (
+	"context"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
@@ -32,7 +33,7 @@ func TestSDK(t *testing.T) {
 
 	sdk := NewSDK(&http.Client{}, server.URL)
 
-	assert.NoError(t, sdk.Send(time.Now(), "error", "some msg"))
+	assert.NoError(t, sdk.Send(context.Background(), time.Now(), "error", "some msg"))
 }
 
 func TestSDKHandleRemoteError(t *testing.T) {
@@ -41,5 +42,5 @@ func TestSDKHandleRemoteError(t *testing.T) {
 
 	sdk := NewSDK(&http.Client{}, server.URL)
 
-	assert.Error(t, sdk.Send(time.Now(), "error", "some msg"))
+	assert.Error(t, sdk.Send(context.Background(), time.Now(), "error", "some msg"))
 }
