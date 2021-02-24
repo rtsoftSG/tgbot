@@ -45,7 +45,7 @@ func TestTgLoggerLog(t *testing.T) {
 	)
 }
 
-func TestTgKitLoggerReturnSDKError(t *testing.T) {
+func TestTgLoggerReturnSDKError(t *testing.T) {
 	sdkMock := new(SDKMock)
 	sdkMock.On("Send", mock.Anything, mock.Anything, mock.Anything).Return(errors.New("some error"))
 
@@ -56,7 +56,7 @@ func TestTgKitLoggerReturnSDKError(t *testing.T) {
 	assert.True(t, errSync.Called())
 }
 
-func TestTgKitLoggerFilterLogLevel(t *testing.T) {
+func TestTgLoggerFilterLogLevel(t *testing.T) {
 	sdkMock := new(SDKMock)
 	sdkMock.On("Send", mock.Anything, mock.Anything, mock.Anything).Return(nil)
 
