@@ -13,6 +13,7 @@ func alwaysOkTgServer(t *testing.T) *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.URL.String(), "/notify")
 		assert.Equal(t, req.Method, "POST")
+		assert.Equal(t, req.Header.Get("Content-Type"), "application/json")
 		rw.WriteHeader(200)
 		rw.Write([]byte(`{}`))
 	}))
@@ -22,6 +23,7 @@ func alwaysErrTgServer(t *testing.T) *httptest.Server {
 	return httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		assert.Equal(t, req.URL.String(), "/notify")
 		assert.Equal(t, req.Method, "POST")
+		assert.Equal(t, req.Header.Get("Content-Type"), "application/json")
 		rw.WriteHeader(400)
 		rw.Write([]byte(`{"message": "unknown error"}`))
 	}))

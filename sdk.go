@@ -47,6 +47,7 @@ func (s *SDK) Send(ctx context.Context, t time.Time, lvl string, msg string) err
 	if err != nil {
 		return fmt.Errorf("prepare post request: %w", err)
 	}
+	httpReq.Header.Set("Content-Type", "application/json")
 
 	resp, err := s.c.Do(httpReq)
 	if err != nil {
